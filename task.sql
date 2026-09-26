@@ -1,19 +1,18 @@
 -- Use our database
-USE ShopDB; 
+USE ShopDB;
 
+START TRANSACTION;
 
-START TRANSACTION; 
+INSERT INTO Orders (CustomerID, Date)
+VALUES (1, CURDATE());
 
-insert into Orders (CustomerID, Date)
-values(1, CURDATE());
+INSERT INTO OrderItems (OrderID, ProductID, Count)
+VALUES (1, 1, 1);
 
-insert into OrderItems (OrderID, ProductID, Count)
-values(1, 1, 1);
+UPDATE Products
+JOIN OrderItems
+ON Products.ID = OrderItems.ProductID
+SET Products.WarehouseAmount = Products.WarehouseAmount - OrderItems.Count
+WHERE Products.ID = 1 AND OrderItems.OrderID = 1;
 
-update Products
-join OrderItems
-on Products.ID = OrderItems.ProductID
-set Products.WarehouseAmount = Products.WarehouseAmount - OrderItems.Count
-where Products.ID = 1 and OrderItems.OrderID = 1;
-
-COMMIT; 
+COMMIT;
