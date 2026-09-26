@@ -1,11 +1,19 @@
 -- Use our database
 USE ShopDB; 
 
--- Some data should be created outside the transaction (here)
 
--- Start the transaction 
 START TRANSACTION; 
 
--- And some data should be created inside the transaction 
+insert into Orders (CustomerID, Date)
+values(1, CURDATE());
+
+insert into OrderItems (OrderID, ProductID, Count)
+values(1, 1, 1);
+
+update Products
+join OrderItems
+on Products.ID = OrderItems.ProductID
+set Products.WarehouseAmount = Products.WarehouseAmount - OrderItems.Count
+where Products.ID = 1 and OrderItems.OrderID = 1;
 
 COMMIT; 
