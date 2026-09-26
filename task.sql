@@ -9,10 +9,7 @@ START TRANSACTION;
 INSERT INTO OrderItems (OrderID, ProductID, Count)
 VALUES (1, 1, 1);
 
-UPDATE Products
-JOIN OrderItems
-ON Products.ID = OrderItems.ProductID
-SET Products.WarehouseAmount = Products.WarehouseAmount - OrderItems.Count
-WHERE Products.ID = 1 AND OrderItems.OrderID = 1;
+UPDATE Products SET WarehouseAmount = WarehouseAmount - 1
+WHERE ID = 1;
 
 COMMIT;
